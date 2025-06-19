@@ -1,0 +1,30 @@
+# BACKEND
+backend/node_modules/
+backend/.env
+backend/src/generated/prisma/
+backend/.prisma/
+
+# FRONTEND
+frontend/node_modules/
+frontend/.env
+frontend/dist/
+frontend/dist-ssr/
+frontend/logs/
+frontend/*.log
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+frontend/lerna-debug.log*
+frontend/*.local
+
+# Editor files (comuni)
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

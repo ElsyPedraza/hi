@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int         @id @default(autoincrement())
+  email     String      @unique
+  password  String
+  firstName String
+  lastName  String
+  birthdate DateTime
+  phone     String?
+  avatar    String?
+  createdAt DateTime    @default(now())
+  tickets   Ticket[]
+  plans     DailyPlan[]
+  favorites Favorite[]
+}
+
+model Attraction {
+  id          Int             @id @default(autoincrement())
+  name        String
+  category    String
+  description String?
+  image       String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  waitTimes   WaitTime[]
+  shows       Show[]
+  planItems   DailyPlanItem[]
+}
+
+model WaitTime {
+  id           Int        @id @default(autoincrement())
+  attractionId Int
+  attraction   Attraction @relation(fields: [attractionId], references: [id])
+  waitMinutes  Int
+  updatedAt    DateTime   @updatedAt
+}
+
+model Show {
+  id           Int            @id @default(autoincrement())
+  title        String
+  description  String
+  attractionId Int
+  image        String?
+  attraction   Attraction     @relation(fields: [attractionId], references: [id])
+  schedules    ShowSchedule[]
+}
+
+model ShowSchedule {
+  id        Int             @id @default(autoincrement())
+  showId    Int
+  show      Show            @relation(fields: [showId], references: [id])
+  date      DateTime
+  startTime DateTime
+  endTime   DateTime
+  planItems DailyPlanItem[]
+}
+
+model ParkHours {
+  id        Int    @id @default(autoincrement())
+  dayOfWeek Int
+  openTime  String
+  closeTime String
+}
+
+model DailyPlan {
+  id     Int             @id @default(autoincrement())
+  userId Int
+  user   User            @relation(fields: [userId], references: [id])
+  date   DateTime
+  items  DailyPlanItem[]
+}
+
+model DailyPlanItem {
+  id             Int           @id @default(autoincrement())
+  planId         Int
+  plan           DailyPlan     @relation(fields: [planId], references: [id])
+  showScheduleId Int?
+  attractionId   Int?
+  preferredTime  DateTime?
+  showSchedule   ShowSchedule? @relation(fields: [showScheduleId], references: [id])
+  attraction     Attraction?   @relation(fields: [attractionId], references: [id])
+}
+
+model Ticket {
+  id              Int        @id @default(autoincrement())
+  userId          Int
+  user            User       @relation(fields: [userId], references: [id])
+  typeId          Int
+  type            TicketType @relation(fields: [typeId], references: [id])
+  purchaseDate    DateTime   @default(now())
+  validDate       DateTime
+  qrCode          String     @unique
+  stripeSessionId String?    @unique
+  status          String     @default("active")
+  buyerName       String?
+  buyerEmail      String?
+  buyerPhone      String?
+}
+
+model TicketType {
+  id           Int      @id @default(autoincrement())
+  name         String
+  price        Float
+  durationDays Int
+  description  String?
+  features     Json?
+  tickets      Ticket[]
+}
+
+model Favorite {
+  id       Int    @id @default(autoincrement())
+  userId   Int
+  user     User   @relation(fields: [userId], references: [id])
+  itemId   Int
+  itemType String
+}
