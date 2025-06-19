@@ -7,9 +7,7 @@ async function main() {
   const hashedPassword = await bcrypt.hash("Password1!", 10);
 
   //Pulisce l'utente demo se già esiste
-  await prisma.user.deleteMany({
-    where: { email: "elsy2@example.com" },
-  });
+
 
   //Crea tipi di biglietto
   await prisma.ticketType.createMany({
@@ -64,26 +62,8 @@ async function main() {
     );
   }
 
-  // Crea utente demo
-  const utenteDemo = await prisma.user.create({
-    data: {
-      email: "elsy2@example.com",
-      password: hashedPassword, // hash in produzione
-      firstName: "Elsy",
-      lastName: "Demo",
-      birthdate: new Date("1990-01-01"),
-    },
-  });
 
-  //Crea biglietto per l’utente
-  await prisma.ticket.create({
-    data: {
-      userId: utenteDemo.id,
-      typeId: tipoBiglietto.id,
-      validDate: new Date(), // oggi
-      qrCode: `QR-${Date.now()}-${utenteDemo.id}`,
-    },
-  });
+
 
   //Attrazioni
   const mantagnaRusa = await prisma.attraction.create({
@@ -357,3 +337,19 @@ main()
   .finally(() => {
     prisma.$disconnect();
   });
+  
+  export async function seed() {
+  await main();
+}
+
+if (process.env.RUN_SEED === "true") {
+  seed()
+    .catch((e) => {
+      console.error(e);
+      process.exit(1);
+    })
+    .finally(() => {
+      prisma.$disconnect();
+    });
+}
+

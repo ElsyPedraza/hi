@@ -8,6 +8,7 @@ import plannerRouter from "./routes/planner.route.js";
 import ticketsRouter from "./routes/tickets.route.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import adminRouter from "./routes/admin.route.js";
 
 import dotenv from "dotenv";
 dotenv.config(); // Carica le variabili d'ambiente da un file .env
@@ -21,7 +22,7 @@ app.use(express.json());
 
 
 app.use(cors({
-  origin: "http://localhost:5173", 
+  origin: ["https://hi-front.onrender.com", "http://localhost:5173"], 
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true  // Metodi consentiti tutti
 }))
@@ -35,6 +36,7 @@ app.use("/api/shows", showsRouter)
 app.use("/api/planner", plannerRouter);
 app.use("/api/tickets", ticketsRouter);
 app.use('/api/show-schedule', showsRouter);
+app.use("/api/admin", adminRouter);
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use(express.static('public'))
@@ -48,6 +50,9 @@ app.get("/", (req, res) => {
   res.json({ blogPosts: ["Post 1", "Post 2", "Post 3"]});
 });
 
+app.get("/debug-env", (req, res) => {
+  res.send("DATABASE_URL: " + process.env.DATABASE_URL);
+});
 // Avvio del server
 app.listen(PORT, () => {
   console.log(`Server in esecuzione sulla porta ${PORT}`);
