@@ -66,7 +66,7 @@ async function main() {
 
 
   //Attrazioni
-  const mantagnaRusa = await prisma.attraction.create({
+  const mantagnaRusa = await prisma.attraction.upsert({
     data: {
       name: "Montagne Russe",
       category: "giostra",
@@ -75,7 +75,7 @@ async function main() {
     },
   });
 
-  const navePirata = await prisma.attraction.create({
+  const navePirata = await prisma.attraction.upsert({
     data: {
       name: "Nave Pirata",
       category: "giostra",
@@ -84,7 +84,7 @@ async function main() {
     },
   });
 
-  const ruotaPanoramica = await prisma.attraction.create({
+  const ruotaPanoramica = await prisma.attraction.upsert({
     data: {
       name: "Ruota Panoramica",
       category: "giostra",
@@ -93,7 +93,7 @@ async function main() {
     },
   });
 
-  const carosello = await prisma.attraction.create({
+  const carosello = await prisma.attraction.upsert({
     data: {
       name: "Carosello",
       category: "bambini",
@@ -102,7 +102,7 @@ async function main() {
     },
   });
 
-  const trenino = await prisma.attraction.create({
+  const trenino = await prisma.attraction.upsert({
     data: {
       name: "Trenino del Parco",
       category: "tour",
@@ -111,7 +111,7 @@ async function main() {
     },
   });
 
-  const autoscontro = await prisma.attraction.create({
+  const autoscontro = await prisma.attraction.upsert({
     data: {
       name: "Autoscontro",
       category: "giostra",
@@ -120,7 +120,7 @@ async function main() {
     },
   });
 
-  const tendaGrande = await prisma.attraction.create({
+  const tendaGrande = await prisma.attraction.upsert({
     data: {
       name: "Tenda Grande",
       category: "spettacolo",
@@ -129,7 +129,7 @@ async function main() {
     },
   });
 
-  const tendaPiccola = await prisma.attraction.create({
+  const tendaPiccola = await prisma.attraction.upsert({
     data: {
       name: "Tenda Piccola",
       category: "spettacolo",
@@ -138,7 +138,7 @@ async function main() {
     },
   });
 
-  const teatro = await prisma.attraction.create({
+  const teatro = await prisma.attraction.upsert({
     data: {
       name: "Teatro del Parco",
       category: "spettacolo",
@@ -147,7 +147,7 @@ async function main() {
     },
   });
 
-  const castello = await prisma.attraction.create({
+  const castello = await prisma.attraction.upsert({
     data: {
       name: "Castello delle Avventure",
       category: "bambini",
@@ -157,7 +157,7 @@ async function main() {
   });
 
   //Spettacoli
-  const spettacolo1 = await prisma.show.create({
+  const spettacolo1 = await prisma.show.upsert({
     data: {
       title: "Magia del Fuoco",
       description: "Magia e fuochi pirotecnici che incantano grandi e piccini con il Mago Lumos",
@@ -166,7 +166,7 @@ async function main() {
     },
   });
 
-  const spettacolo2 = await prisma.show.create({
+  const spettacolo2 = await prisma.show.upsert({
     data: {
       title: "Musical Fantasy",
       description:
@@ -176,7 +176,7 @@ async function main() {
     },
   });
 
-  const spettacolo3 = await prisma.show.create({
+  const spettacolo3 = await prisma.show.upsert({
     data: {
       title: "Spettacolo di Bolle",
       description: "Bolle giganti e interazione con il pubblico più giovane",
@@ -185,7 +185,7 @@ async function main() {
     },
   });
 
-  const spettacolo4 = await prisma.show.create({
+  const spettacolo4 = await prisma.show.upsert({
     data: {
       title: "Storie sotto le Stelle",
       description:
@@ -195,7 +195,7 @@ async function main() {
     },
   });
 
-  const spettacolo5 = await prisma.show.create({
+  const spettacolo5 = await prisma.show.upsert({
     data: {
       title: "Magico Illusionista",
       description:
@@ -205,7 +205,7 @@ async function main() {
     },
   });
 
-  const spettacolo6 = await prisma.show.create({
+  const spettacolo6 = await prisma.show.upsert({
     data: {
       title: "Talenti in Scena",
       description: "Concerto con giovani band emergenti del territorio",
@@ -337,7 +337,7 @@ main()
   .finally(() => {
     prisma.$disconnect();
   });
-  
+
   export async function seed() {
   await main();
 }

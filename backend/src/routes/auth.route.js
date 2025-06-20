@@ -60,7 +60,7 @@ authRouter.post("/register", validatorMiddleware(registerValidator), async (req,
     const { password: _, ...userWithoutPassword } = user
 
     // Genera token per login automatico
-    const token = jsonwebtoken.sign(userWithoutPassword, process.env.JWT_SECRET, { expiresIn: "1d" })
+    const token = jsonwebtoken.sign(userWithoutPassword, process.env.JWT_SECRET, { expiresIn: "7d" })
 
     res.status(201).json({
       message: "Utente registrato con successo",
